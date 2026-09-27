@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Dining | Premium Restaurant Table Booking</title>
+    <meta name="description" content="Experience luxury dining at Aura. Reserve your custom table, explore our curated seasonal menu, and manage your bookings online.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="gold-text">AURA</span> DINING
+            </a>
+            <nav class="nav-links">
+                <a href="#hero" class="active">Home</a>
+                <a href="#booking">Book A Table</a>
+                <a href="#menu">Our Menu</a>
+                <a href="#dashboard">My Bookings</a>
+                <a href="#admin"><i class="fa-solid fa-user-shield"></i> Staff Panel</a>
+            </nav>
+            <div class="nav-cta">
+                <a href="#booking" class="btn btn-outline glow-effect">Reserve Table</a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2 class="hero-subtitle">CULINARY EXCELLENCE</h2>
+            <h1 class="hero-title">Dine in the Glow of <span class="gold-gradient">Elegance</span></h1>
+            <p class="hero-desc">Indulge in a sensory journey crafted by world-class chefs. Book your preferred table, from intimate window booths to majestic VIP roundtables, and immerse yourself in the Aura experience.</p>
+            <div class="hero-actions">
+                <a href="#booking" class="btn btn-primary glow-effect">Book Your Experience</a>
+                <a href="#menu" class="btn btn-secondary">Explore Menu</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span class="mouse-icon">
+                <span class="scroll-wheel"></span>
+            </span>
+            <p>Scroll to Explore</p>
+        </div>
+    </section>
+
+    <!-- Booking Wizard Section -->
+    <section id="booking" class="booking-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="sub-title">RESERVATIONS</span>
+                <h2 class="title">Secure Your Table</h2>
+                <div class="title-gold-bar"></div>
+            </div>
+
+            <!-- Booking steps wrapper -->
+            <div class="booking-wrapper">
+                <!-- Step Form / Controls (Left) -->
+                <div class="booking-controls-card glass-panel">
+                    <div class="control-header">
+                        <h3><i class="fa-regular fa-calendar-days"></i> Booking Details</h3>
+                        <p>Select your preferences to view available tables</p>
+                    </div>
+
+                    <form id="booking-form" class="booking-form" onsubmit="event.preventDefault();">
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="booking-date">Select Date</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-calendar"></i>
+                                <input type="date" id="booking-date" required>
+                            </div>
+                        </div>
+
+                        <!-- Time Slot -->
+                        <div class="form-group">
+                            <label for="booking-time">Select Time Slot</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-clock"></i>
+                                <select id="booking-time" required>
+                                    <option value="" disabled selected>Choose a slot...</option>
+                                    <optgroup label="Lunch">
+                                        <option value="12:00 - 13:30">12:00 PM - 01:30 PM</option>
+                                        <option value="13:30 - 15:00">01:30 PM - 03:00 PM</option>
+                                    </optgroup>
+                                    <optgroup label="Dinner">
+                                        <option value="18:00 - 19:30">06:00 PM - 07:30 PM</option>
+                                        <option value="19:30 - 21:00">07:30 PM - 09:00 PM</option>
+                                        <option value="21:00 - 22:30">09:00 PM - 10:30 PM</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Guests -->
+                        <div class="form-group">
+                            <label for="booking-guests">Number of Guests</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-user-group"></i>
+                                <select id="booking-guests" required>
+                                    <option value="2">2 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="6">6 Guests</option>
+                                    <option value="8">8 Guests (VIP)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Selected Table Readout -->
+                        <div class="selected-table-panel" id="table-readout">
+                            <div class="panel-inner">
+                                <span class="readout-label">Selected Table:</span>
+                                <span class="readout-value" id="selected-table-val">Please select a table on the map</span>
+                            </div>
+                        </div>
+
+                        <!-- Personal Details (Hidden until table is chosen) -->
+                        <div class="guest-details-section hidden" id="guest-details">
+                            <div class="section-divider"></div>
+                            <h4>Contact Information</h4>
+                            <div class="form-group">
+                                <label for="guest-name">Full Name</label>
+                                <input type="text" id="guest-name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="guest-email">Email</label>
+                                    <input type="email" id="guest-email" placeholder="john@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guest-phone">Phone Number</label>
+                                    <input type="tel" id="guest-phone" placeholder="+1 (555) 123-4567" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="special-requests">Special Requests (Occasion, allergies, etc.)</label>
+                                <textarea id="special-requests" rows="3" placeholder="E.g., Birthday dinner, gluten-free option..."></textarea>
+                            </div>
+                            
+                            <!-- Collapsible Pre-Order section -->
+                            <div class="preorder-collapsible">
+                                <button type="button" class="preorder-toggle-btn" id="preorder-toggle">
+                                    <span><i class="fa-solid fa-utensils gold-text"></i> Pre-order Dishes (Optional)</span>
+                                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                                </button>
+                                <div class="preorder-content-wrapper hidden" id="preorder-content">
+                                    <p class="preorder-help">Pre-order starters, mains, drinks, or desserts to be served immediately upon arrival. (Veg & Non-Veg)</p>
+                                    <div class="preorder-items-grid" id="preorder-items-grid">
+                                        <!-- Loaded dynamically via JS -->
+                                    </div>
+                                    <div class="preorder-summary-row">
+                                        <span>Pre-ordered Total:</span>
+                                        <span class="preorder-total-val" id="preorder-total-val">₹0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-full disabled" id="submit-booking-btn" disabled>
+                            Confirm Reservation <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Interactive Map / SVG (Right) -->
+                <div class="booking-map-card glass-panel">
+                    <div class="map-header">
+                        <h3><i class="fa-solid fa-map-location-dot"></i> Interactive Dining Map</h3>
+                        <div class="legend">
+                            <span class="legend-item"><span class="legend-color available"></span> Available</span>
+                            <span class="legend-item"><span class="legend-color occupied"></span> Occupied</span>
+                            <span class="legend-item"><span class="legend-color selected"></span> Selected</span>
+                        </div>
+                    </div>
+
+                    <div class="map-container">
+                        <!-- Responsive SVG Floor Plan -->
+                        <svg viewBox="0 0 800 500" class="floor-plan-svg" id="floor-plan">
+                            <!-- Background Room Outline -->
+                            <rect x="10" y="10" width="780" height="480" rx="15" class="floor-bg" />
+                            
+                            <!-- Internal structures (Bar, Stage) -->
+                            <!-- Bar Counter -->
+                            <path d="M 40 100 L 150 100 A 30 30 0 0 1 180 130 L 180 320 A 30 30 0 0 1 150 350 L 40 350" fill="none" stroke="rgba(212, 175, 55, 0.3)" stroke-width="8" />
+                            <rect x="30" y="120" width="100" height="180" rx="10" fill="rgba(255, 255, 255, 0.03)" stroke="rgba(212, 175, 55, 0.15)" stroke-width="2" />
+                            <text x="80" y="215" class="map-label bar-label" text-anchor="middle">THE BAR</text>
+                            
+                            <!-- Entrance (Bottom Center) -->
+                            <line x1="350" y1="490" x2="450" y2="490" stroke="#d4af37" stroke-width="6" stroke-linecap="round" />
+                            <text x="400" y="475" class="map-label entrance-label" text-anchor="middle">ENTRANCE</text>
+
+                            <!-- Stage / Live Music -->
+                            <path d="M 620 40 A 100 100 0 0 1 760 180 L 760 40 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(212, 175, 55, 0.1)" stroke-width="2" />
+                            <text x="700" y="100" class="map-label stage-label" text-anchor="middle" transform="rotate(-45 700 100)">LIVE PIANO</text>
+
+                            <!-- Window labels -->
+                            <line x1="200" y1="10" x2="600" y2="10" stroke="rgba(255, 255, 255, 0.2)" stroke-width="4" />
+                            <text x="400" y="30" class="map-label window-label" text-anchor="middle">GARDEN VIEW WINDOWS</text>
+
+                            <!-- TABLES -->
+                            <!-- Bar Seats (Table 1, 2, 3, 4 - 2 seaters) -->
+                            <g class="table-group" data-table-id="1" data-capacity="2" data-type="Bar Seat">
+                                <circle cx="180" cy="140" r="18" class="table-circle" />
+                                <text x="180" y="145" class="table-num">B1</text>
+                            </g>
+                            <g class="table-group" data-table-id="2" data-capacity="2" data-type="Bar Seat">
+                                <circle cx="180" cy="195" r="18" class="table-circle" />
+                                <text x="180" y="200" class="table-num">B2</text>
+                            </g>
+                            <g class="table-group" data-table-id="3" data-capacity="2" data-type="Bar Seat">
+                                <circle cx="180" cy="250" r="18" class="table-circle" />
+                                <text x="180" y="255" class="table-num">B3</text>
+                            </g>
+                            <g class="table-group" data-table-id="4" data-capacity="2" data-type="Bar Seat">
+                                <circle cx="180" cy="305" r="18" class="table-circle" />
+                                <text x="180" y="310" class="table-num">B4</text>
+                            </g>
+
+                            <!-- Window Booths (Table 5, 6, 7, 8 - 4 seaters) -->
+                            <g class="table-group" data-table-id="5" data-capacity="4" data-type="Window Booth">
+                                <rect x="250" y="50" width="55" height="40" rx="6" class="table-rect" />
+                                <text x="277.5" y="75" class="table-num">W5</text>
+                            </g>
+                            <g class="table-group" data-table-id="6" data-capacity="4" data-type="Window Booth">
+                                <rect x="370" y="50" width="55" height="40" rx="6" class="table-rect" />
+                                <text x="397.5" y="75" class="table-num">W6</text>
+                            </g>
+                            <g class="table-group" data-table-id="7" data-capacity="4" data-type="Window Booth">
+                                <rect x="490" y="50" width="55" height="40" rx="6" class="table-rect" />
+                                <text x="517.5" y="75" class="table-num">W7</text>
+                            </g>
+                            <g class="table-group" data-table-id="8" data-capacity="4" data-type="Window Booth">
+                                <rect x="610" y="50" width="55" height="40" rx="6" class="table-rect" />
+                                <text x="637.5" y="75" class="table-num">W8</text>
+                            </g>
+
+                            <!-- Main Hall Standard Tables (Table 9, 10, 11, 12 - 4 or 6 seaters) -->
+                            <g class="table-group" data-table-id="9" data-capacity="4" data-type="Standard Table">
+                                <rect x="300" y="190" width="60" height="60" rx="30" class="table-rect" />
+                                <text x="330" y="225" class="table-num">T9</text>
+                            </g>
+                            <g class="table-group" data-table-id="10" data-capacity="6" data-type="Standard Table">
+                                <rect x="450" y="190" width="90" height="60" rx="10" class="table-rect" />
+                                <text x="495" y="225" class="table-num">T10</text>
+                            </g>
+                            <g class="table-group" data-table-id="11" data-capacity="4" data-type="Standard Table">
+                                <rect x="300" y="310" width="60" height="60" rx="30" class="table-rect" />
+                                <text x="330" y="345" class="table-num">T11</text>
+                            </g>
+                            <g class="table-group" data-table-id="12" data-capacity="6" data-type="Standard Table">
+                                <rect x="450" y="310" width="90" height="60" rx="10" class="table-rect" />
+                                <text x="495" y="345" class="table-num">T12</text>
+                            </g>
+
+                            <!-- VIP Salon Rooms (Table 13, 14 - 8 seaters) -->
+                            <g class="table-group" data-table-id="13" data-capacity="8" data-type="VIP Lounge">
+                                <circle cx="670" cy="270" r="40" class="table-circle" />
+                                <text x="670" y="275" class="table-num">VIP1</text>
+                            </g>
+                            <g class="table-group" data-table-id="14" data-capacity="8" data-type="VIP Lounge">
+                                <circle cx="670" cy="380" r="40" class="table-circle" />
+                                <text x="670" y="385" class="table-num">VIP2</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="map-tooltip" id="map-tooltip">Hover over a table</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="sub-title">OUR DISHES</span>
+                <h2 class="title">Explore the Menu</h2>
+                <div class="title-gold-bar"></div>
+            </div>
+
+            <!-- Menu Controls (Categories & Dietary Toggles) -->
+            <div class="menu-controls">
+                <div class="menu-categories" id="menu-categories">
+                    <button class="menu-cat-btn active" data-category="all">All</button>
+                    <button class="menu-cat-btn" data-category="starters">Starters</button>
+                    <button class="menu-cat-btn" data-category="mains">Mains</button>
+                    <button class="menu-cat-btn" data-category="desserts">Desserts</button>
+                    <button class="menu-cat-btn" data-category="drinks">Drinks</button>
+                </div>
+                
+                <div class="menu-filters">
+                    <span class="filter-title"><i class="fa-solid fa-sliders"></i> Dietary:</span>
+                    <label class="filter-toggle">
+                        <input type="checkbox" id="diet-veg">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">Veg</span>
+                    </label>
+                    <label class="filter-toggle">
+                        <input type="checkbox" id="diet-gf">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">Gluten-Free</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Dynamic Menu Grid -->
+            <div class="menu-grid" id="menu-grid">
+                <!-- Javascript will load the items here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookings Dashboard Section -->
+    <section id="dashboard" class="dashboard-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="sub-title">RESERVATIONS</span>
+                <h2 class="title">My Bookings</h2>
+                <div class="title-gold-bar"></div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- If no bookings exist -->
+                <div class="no-bookings-panel glass-panel" id="no-bookings">
+                    <i class="fa-solid fa-receipt icon-empty"></i>
+                    <h3>No Active Reservations</h3>
+                    <p>You haven't booked any tables yet. Let's reserve one for you tonight!</p>
+                    <a href="#booking" class="btn btn-primary glow-effect">Reserve Now</a>
+                </div>
+
+                <!-- Bookings Ticket Grid -->
+                <div class="bookings-grid hidden" id="bookings-grid">
+                    <!-- Dynamic reservation tickets will render here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="admin" class="admin-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="sub-title">STAFF PANEL</span>
+                <h2 class="title">Admin Dashboard</h2>
+                <div class="title-gold-bar"></div>
+            </div>
+
+            <div class="admin-grid-wrapper">
+                <!-- Left: Table Status Manager -->
+                <div class="admin-card glass-panel table-override-panel">
+                    <div class="card-header-row">
+                        <h3><i class="fa-solid fa-chair"></i> Floor Override</h3>
+                        <p>Manually block or release tables (walk-ins/maintenance)</p>
+                    </div>
+                    <div class="admin-tables-grid" id="admin-tables-grid">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Right: Reservation List -->
+                <div class="admin-card glass-panel reservations-panel">
+                    <div class="card-header-row search-header">
+                        <h3><i class="fa-solid fa-list-check"></i> Master Bookings</h3>
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="admin-search" placeholder="Search ID, name, table...">
+                        </div>
+                    </div>
+                    <div class="table-scroll-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Ref ID</th>
+                                    <th>Guest</th>
+                                    <th>Table</th>
+                                    <th>Date</th>
+                                    <th>Slot</th>
+                                    <th>Guests</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-reservations-list">
+                                <!-- Loaded dynamically via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3 class="footer-logo"><span class="gold-text">AURA</span> DINING</h3>
+                <p>An exquisite culinary journey where design meets flavor. Savour luxury, atmosphere, and service.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Hours</h4>
+                <ul>
+                    <li><strong>Mon - Thu:</strong> 12:00 PM - 10:30 PM</li>
+                    <li><strong>Fri - Sun:</strong> 11:30 AM - 11:30 PM</li>
+                    <li><strong>Live Piano:</strong> Fri - Sat from 07:00 PM</li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact Info</h4>
+                <p><i class="fa-solid fa-location-dot gold-text"></i> Kharadi, Pune</p>
+                <p><i class="fa-solid fa-phone gold-text"></i> +91 8329870479</p>
+                <p><i class="fa-solid fa-envelope gold-text"></i> sonawanesakshi565@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aura Dining. All rights reserved. Designed by Sakshi Vinod Sonawane.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fa-solid fa-circle-check toast-icon"></i>
+            <div class="toast-text">
+                <h4 id="toast-title">Success</h4>
+                <p id="toast-message">Booking confirmed successfully.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Modal Dialog Overlay -->
+    <div class="review-modal-overlay hidden" id="review-modal">
+        <div class="review-modal glass-panel">
+            <button class="close-review-modal" id="close-review-btn"><i class="fa-solid fa-xmark"></i></button>
+            <div class="review-modal-body">
+                <div class="review-modal-left">
+                    <img src="" alt="" id="review-modal-img" class="review-dish-img">
+                    <h3 id="review-modal-title" class="gold-text">Dish Name</h3>
+                    <div class="dish-rating-stats">
+                        <span class="avg-stars" id="review-modal-avg-stars">★ 0.0</span>
+                        <span class="review-count" id="review-modal-count">(0 reviews)</span>
+                    </div>
+                    <p id="review-modal-desc" class="review-dish-desc">Dish description goes here.</p>
+                </div>
+                
+                <div class="review-modal-right">
+                    <h4>Community Reviews</h4>
+                    <div class="reviews-list-container" id="reviews-list-container">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+                    
+                    <div class="add-review-section">
+                        <h4>Write a Review</h4>
+                        <form id="add-review-form">
+                            <div class="rating-stars-select" id="rating-stars-select">
+                                <span class="star-select-btn" data-rating="1">★</span>
+                                <span class="star-select-btn" data-rating="2">★</span>
+                                <span class="star-select-btn" data-rating="3">★</span>
+                                <span class="star-select-btn" data-rating="4">★</span>
+                                <span class="star-select-btn" data-rating="5">★</span>
+                            </div>
+                            <input type="text" id="review-name" placeholder="Your Name" required>
+                            <textarea id="review-comment" rows="2" placeholder="Tell others how you liked this dish..." required></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script file -->
+    <script src="app.js"></script>
+</body>
+</html>
